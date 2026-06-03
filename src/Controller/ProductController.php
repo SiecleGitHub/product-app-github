@@ -11,8 +11,13 @@ final class ProductController extends AbstractController
     #[Route('/products', name: 'product_index', methods:['GET', 'HEAD'])]
     public function index(): Response
     {
+        $products = [
+            ['id' => 1, 'name' => 'Product 1', 'price' => 10.99],
+            ['id' => 2, 'name' => 'Product 2', 'price' => 19.99],
+            ['id' => 3, 'name' => 'Product 3', 'price' => 5.99],
+        ];
         return $this->render('product/index.html.twig', [
-            'products' => '<em>list of products</em>',
+            'products' => $products,
         ]);
     }
 }
