@@ -12,7 +12,7 @@ final class ProductController extends AbstractController
     public function index(): Response
     {
         return $this->render('product/index.html.twig', [
-            'products' => 'list of products',
+            'products' => '<em>list of products</em>',
         ]);
     }
 }
