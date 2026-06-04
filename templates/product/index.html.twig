@@ -9,13 +9,15 @@
 <ul>
     {% for product in products %}
         <li>
-            <h1>{{ product.name }}</h1>
+            <h2>
+                <a href="{{ path('product_show', {'id': product.id}) }}">
+                    {{ product.name }}
+                </a>
+            </h2>
             <p>{{ product.description }}</p>
-            <p>Size: {{ product.size }}</p>
-            <p>{{ product.isAvailable ? 'Available' : 'unavailable' }}</p>
+            <p>{{ product.isAvailable ? 'available' : 'unavailable' }}</p>
         </li>
     {% endfor %}
 </ul>
 
 {% endblock %}
-
