@@ -62,6 +62,11 @@ final class ProductController extends AbstractController
 
             $manager->flush();
 
+            $this->addFlash(
+                'success',
+                'Product created successfully'
+            );
+
             return $this->redirectToRoute('product_show', [
                 'id' => $product->getId()
             ]);
