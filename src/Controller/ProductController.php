@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
@@ -44,13 +46,30 @@ final class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/product/new', name: 'product_new', methods: ['GET'])]
-    public function new(): Response
-    {
-        $form = $this->createForm(ProductType::class);
+    #[Route('/product/new', name: 'product_new', methods: ['GET', 'POST'])]
+        public function new(Request $request,
+                            EntityManagerInterface $manager): Response
+        {
+            $product = new Product;
 
-        return $this->render('product/new.html.twig', [
-            'form' => $form
-        ]);
-    }
+            $form = $this->createForm(ProductType::class, $product);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted()) {
+
+                $manager->persist($product);
+
+                $manager->flush();
+
+                return $this->redirectToRoute('product_show', [
+                    'id' => $product->getId()
+                ]);
+
+            }
+
+            return $this->render('product/new.html.twig', [
+                'form' => $form
+            ]);
+        }
 }
