@@ -10,4 +10,6 @@
 <p>{{ product.isAvailable ? 'available' : 'unavailable' }}</p>
 <p>Size: {{ product.size }}</p>
 
+<a href="{{ path('product_edit', {'id': product.id}) }}">Edit</a>
+
 {% endblock %}

@@ -1,0 +1,19 @@
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+{{ form_row(form.name) }}
+
+{{ form_row(form.description) }}
+
+{{ form_row(form.size) }}
+
+<div>
+    <label for="{{ form.is_available.vars.id }}">
+        {{ form_widget(form.is_available) }}
+        {{ form.is_available.vars.name|humanize }}
+    </label>
+    {{ form_errors(form.is_available) }}
+</div>
+
+{{ form_row(form.save, {'label': button_label|default('Save')}) }}
+
+{{ form_end(form) }}
