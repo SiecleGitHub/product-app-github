@@ -7,6 +7,7 @@ use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -104,6 +105,41 @@ final class ProductController extends AbstractController
         }
 
         return $this->render('product/edit.html.twig', [
+            'form' => $form
+        ]);
+    }
+
+    #[Route('/product/{id<\d+>}/delete', name: 'product_delete',
+            methods: ['GET', 'DELETE'])]
+    public function delete(Product $product,
+                           Request $request,
+                           EntityManagerInterface $manager): Response
+    {
+        $form = $this->createFormBuilder()
+                     ->setAction($this->generateUrl('product_delete', [
+                        'id' => $product->getId()
+                     ]))
+                     ->setMethod('DELETE')
+                     ->add('delete', SubmitType::class, [
+                         'label' => 'Yes'
+                     ])
+                     ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+
+            $manager->remove($product);
+
+            $manager->flush();
+
+            $this->addFlash('success', 'Product deleted successfully');
+
+            return $this->redirectToRoute('product_index');
+
+        }
+
+        return $this->render('product/delete.html.twig', [
             'form' => $form
         ]);
     }
