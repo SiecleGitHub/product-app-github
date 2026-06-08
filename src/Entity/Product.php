@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -15,15 +16,19 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 128)]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
+    #[Assert\NotBlank]
+    #[Assert\Type('integer')]
+    #[Assert\Positive]
     private ?int $size = null;
 
-    #[ORM\Column(options: ['default' => true])]
+    #[ORM\Column(options: ["default" => true])]
     private ?bool $is_available = true;
 
     public function getId(): ?int

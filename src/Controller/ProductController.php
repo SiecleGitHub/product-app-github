@@ -47,29 +47,29 @@ final class ProductController extends AbstractController
     }
 
     #[Route('/product/new', name: 'product_new', methods: ['GET', 'POST'])]
-        public function new(Request $request,
-                            EntityManagerInterface $manager): Response
-        {
-            $product = new Product;
+    public function new(Request $request,
+                        EntityManagerInterface $manager): Response
+    {
+        $product = new Product;
 
-            $form = $this->createForm(ProductType::class, $product);
+        $form = $this->createForm(ProductType::class, $product);
 
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
-                $manager->persist($product);
+            $manager->persist($product);
 
-                $manager->flush();
+            $manager->flush();
 
-                return $this->redirectToRoute('product_show', [
-                    'id' => $product->getId()
-                ]);
-
-            }
-
-            return $this->render('product/new.html.twig', [
-                'form' => $form
+            return $this->redirectToRoute('product_show', [
+                'id' => $product->getId()
             ]);
+
         }
+
+        return $this->render('product/new.html.twig', [
+            'form' => $form
+        ]);
+    }
 }
