@@ -24,24 +24,8 @@ final class ProductController extends AbstractController
     }
 
     #[Route('/product/{id<\d+>}', name: 'product_show', methods: ['GET'])]
-    //public function show(int $id, ProductRepository $repository): Response
     public function show(Product $product): Response
     {
-        /*
-        $product = $repository
-            ->createQueryBuilder('p')
-            ->where("p.id = :id")
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getResult();
-        */
-        // $product = $repository->findOneBy(['id' => $id]);
-        // $product = $repository->find($id);
-
-        // if ($product === null) {
-        //     throw $this->createNotFoundException('Product not found');
-        // }
-
         return $this->render('product/show.html.twig', [
             "product" => $product
         ]);
@@ -127,7 +111,7 @@ final class ProductController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $manager->remove($product);
 
