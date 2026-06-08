@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,6 +41,16 @@ final class ProductController extends AbstractController
 
         return $this->render('product/show.html.twig', [
             "product" => $product
+        ]);
+    }
+
+    #[Route('/product/new', name: 'product_new', methods: ['GET'])]
+    public function new(): Response
+    {
+        $form = $this->createForm(ProductType::class);
+
+        return $this->render('product/new.html.twig', [
+            'form' => $form
         ]);
     }
 }
