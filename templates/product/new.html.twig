@@ -6,6 +6,23 @@
 
 <h1>New Product</h1>
 
-{{ form(form) }}
+{{ form_start(form) }}
+
+{{ form_row(form.name) }}
+
+{{ form_row(form.description) }}
+
+{{ form_row(form.size) }}
+
+<div>
+    <label for="{{ form.is_available.vars.id }}">
+        {{ form_widget(form.is_available) }}
+        {{ form.is_available.vars.name|humanize }}
+    </label>
+</div>
+
+{{ form_row(form.save, {'label': 'Save'}) }}
+
+{{ form_end(form) }}
 
 {% endblock %}
