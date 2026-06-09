@@ -14,6 +14,8 @@
     {{ form_errors(form.is_available) }}
 </div>
 
+{{ form_row(form.categories) }}
+
 {{ form_row(form.save, {'label': button_label|default('Save')}) }}
 
 {{ form_end(form) }}

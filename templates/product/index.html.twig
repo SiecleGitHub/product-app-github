@@ -18,7 +18,7 @@
             </h2>
             <p>{{ product.description }}</p>
             <p>{{ product.isAvailable ? 'available' : 'unavailable' }}</p>
-            {{ include("product/_categories.html.twig") }}
+            {{ include('product/_categories.html.twig') }}
         </li>
     {% endfor %}
 </ul>
