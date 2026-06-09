@@ -10,6 +10,8 @@
 <p>{{ product.isAvailable ? 'available' : 'unavailable' }}</p>
 <p>Size: {{ product.size }}</p>
 
+{{ include("product/_categories.html.twig") }}
+
 <a href="{{ path('product_edit', {'id': product.id}) }}">Edit</a>
 <a href="{{ path('product_delete', {'id': product.id}) }}">Delete</a>
 

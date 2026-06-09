@@ -122,7 +122,7 @@ final class ProductController extends AbstractController
             return $this->redirectToRoute('product_index');
 
         }
-
+                     
         return $this->render('product/delete.html.twig', [
             'form' => $form
         ]);

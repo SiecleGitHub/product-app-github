@@ -15,11 +15,13 @@ class ProductType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('size', options: ['attr' => ['min' => '0']])
+            ->add('size', options: [
+                'attr' => [
+                    'min' => 0
+                ]
+            ])
             ->add('is_available')
-            ->add('save', SubmitType::class, [
-                'label' => 'Add new Product'
-            ]);
+            ->add('save', SubmitType::class, ['label' => 'Add New Product'])
         ;
     }
 

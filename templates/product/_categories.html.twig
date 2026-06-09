@@ -1,0 +1,8 @@
+<p>Categories:
+{% for category in product.categories %}
+    {{ category.name -}}
+    {%- if not loop.last %},{% endif %}
+{% else %}
+    None
+{% endfor %}
+</p>
