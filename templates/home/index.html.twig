@@ -6,7 +6,16 @@
 
 <h1>Welcome</h1>
 
-<a href="{{ path('app_register') }}">Register</a>
+<div>
+    {% if app.user %}
+        Hi {{ app.user.name }}.
+        <a href="{{ logout_path() }}">Log out</a>
+    {% else %}
+        <a href="{{ path('app_login') }}">Log in</a> or
+        <a href="{{ path('app_register') }}">Register</a>
+    {% endif %}
+</div>
+
 <a href="{{ path('product_index') }}">Products</a>
 <a href="{{ path('app_category_index') }}">Categories</a>
 
