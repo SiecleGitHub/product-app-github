@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
@@ -27,7 +28,13 @@ class UserCrudController extends AbstractCrudController
         $password_field = TextField::new('plainPassword', 'Password')
                             ->setFormType(PasswordType::class)
                             ->onlyOnForms()
-                            ->setRequired(true);
+                            ->setRequired($pageName === Crud::PAGE_NEW);
+
+        if ($pageName === Crud::PAGE_EDIT) {
+            $password_field->setHelp(
+                'Leave blank to keep the current password'
+            );
+        }
 
         return [
             TextField::new('name'),
@@ -48,5 +55,20 @@ class UserCrudController extends AbstractCrudController
         );
 
         parent::persistEntity($entityManager, $entityInstance);
+    }
+
+    public function updateEntity(EntityManagerInterface $entityManager,
+                                 $entityInstance): void
+    {
+        if ($entityInstance->getPlainPassword()) {
+            $entityInstance->setPassword(
+                $this->hasher->hashPassword(
+                    $entityInstance,
+                    $entityInstance->getPlainPassword()
+                )
+            );
+        }
+
+        parent::updateEntity($entityManager, $entityInstance);
     }
 }
