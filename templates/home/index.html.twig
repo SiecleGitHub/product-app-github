@@ -17,6 +17,9 @@
 </div>
 
 <a href="{{ path('product_index') }}">Products</a>
-<a href="{{ path('app_category_index') }}">Categories</a>
+
+{% if is_granted('ROLE_USER') %}
+    <a href="{{ path('app_category_index') }}">Categories</a>
+{% endif %}
 
 {% endblock %}
