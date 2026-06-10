@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -38,11 +39,21 @@ class UserCrudController extends AbstractCrudController
             );
         }
 
+        $roles = ChoiceField::new('roles')
+                    ->setChoices([
+                        'User' => 'ROLE_USER',
+                        'Admin' => 'ROLE_ADMIN'
+                    ])
+                    ->allowMultipleChoices()
+                    ->renderExpanded()
+                    ->onlyOnForms();
+
         return [
             TextField::new('name'),
             EmailField::new('email'),
             BooleanField::new('is_verified'),
-            $password_field
+            $password_field,
+            $roles
         ];
     }
 
