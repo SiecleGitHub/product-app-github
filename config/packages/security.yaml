@@ -17,6 +17,11 @@ security:
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
         main:
+            remember_me:
+                secret: "%kernel.secret%"
+                lifetime: 604800 # 1 week in seconds
+                path: "/" # or '/admin' if your app is under /admin
+                always_remember_me: false # Set to true to always remember the user, even if they don't check the "remember me" checkbox
             user_checker: App\Security\UserChecker
             lazy: true
             provider: app_user_provider
