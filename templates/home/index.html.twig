@@ -22,4 +22,8 @@
     <a href="{{ path('app_category_index') }}">Categories</a>
 {% endif %}
 
+{% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('admin') }}">Admin</a>
+{% endif %}
+
 {% endblock %}
