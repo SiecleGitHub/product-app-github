@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -15,28 +16,34 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['api-product-index'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 128)]
     #[Assert\NotBlank]
+    #[Groups(['api-product-index', 'api-product-detail'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['api-product-detail'])]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
     #[Assert\NotBlank]
     #[Assert\Type('integer')]
     #[Assert\Positive]
+    #[Groups(['api-product-index', 'api-product-detail'])]
     private ?int $size = null;
 
     #[ORM\Column(options: ["default" => true])]
+    #[Groups(['api-product-index', 'api-product-detail'])]
     private ?bool $is_available = true;
 
     /**
      * @var Collection<int, Category>
      */
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'products')]
+    #[Groups(['api-product-detail'])]
     private Collection $categories;
 
     public function __construct()
